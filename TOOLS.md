@@ -1,40 +1,26 @@
-# TOOLS.md - Local Notes
+# Telegram Message Settings
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## Link Preview Disabling
 
-## What Goes Here
+When sending messages to Telegram, use this parameter to disable link previews:
 
-Things like:
-
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
-
-## Examples
-
-```markdown
-### Cameras
-
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
-
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+```
+link_preview_options: {
+  is_disabled: true
+}
 ```
 
-## Why Separate?
+**Implementation:**
+- Manual sends: Use `message` tool with `disableLinkPreview: true` or equivalent parameter
+- Auto-sends (cron jobs): Need to configure delivery settings or post-process message
 
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
+**Status:** Currently setting up for morning digest delivery. When I send the digest to Telegram at 7 AM, I will use the link preview disabling parameter to prevent thumbnails from showing.
 
 ---
 
-Add whatever helps you do your job. This is your cheat sheet.
+## Telegram Formatting Rules
+
+- **Links:** Wrap in angle brackets `<URL>` for cleaner appearance
+- **Link Previews:** Disable via API parameter
+- **Markdown:** Supported (bold, italic, code blocks, links)
+- **Message Limits:** 4096 characters per message (will split if needed)
