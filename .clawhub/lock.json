@@ -16,6 +16,10 @@
     "summarize": {
       "version": "1.0.0",
       "installedAt": 1771141838450
+    },
+    "asana-api": {
+      "version": "1.0.3",
+      "installedAt": 1771259085110
     }
   }
 }
