@@ -16,6 +16,17 @@
 - **Current Focus:** Mapping features, organizing backlog, identifying blockers, cross-org alignment
 - **Full Context:** Team structure (Symbiosis + Telerivet), partnership model, IP issues, customer discovery strategy, technical status
 
+### 2. Daily Morning News Digest Agent
+- **Label:** (spawned by cron job daily at 7 AM)
+- **Role:** News curation and digest generation
+- **Trigger:** Cron job every day at 7:00 AM (Asia/Katmandu timezone)
+- **Expertise:** News fetching, filtering, formatting, Telegram delivery
+- **Sources:** kathmandupost.com, techpana.com, thehimalayantimes.com, technologykhabar.com, techcrunch.com, bbc.com, np.ictframe.com
+- **Output:** Casual, formatted morning digest with direct article links, no link previews
+- **Status:** Active (runs automatically daily)
+- **Last Run:** Feb 16, 2026 (pending first real run tomorrow)
+- **Next Run:** Feb 17, 2026 at 7:00 AM
+
 ---
 
 ## Planning for Future Sub-Agents
