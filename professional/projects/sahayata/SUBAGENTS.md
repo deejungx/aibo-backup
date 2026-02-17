@@ -4,8 +4,6 @@
 
 ## Active Sub-Agents
 
-## Active Sub-Agents
-
 ### 1. Sahayata Product Manager - Persistent
 - **Label:** Sahayata Product Manager - Persistent
 - **Session Key:** agent:main:subagent:12df00ba-b31b-4ccc-9fdf-275e1b68eb86
@@ -24,8 +22,18 @@
 - **Sources:** kathmandupost.com, techpana.com, thehimalayantimes.com, technologykhabar.com, techcrunch.com, bbc.com, np.ictframe.com
 - **Output:** Casual, formatted morning digest with direct article links, no link previews
 - **Status:** Active (runs automatically daily)
-- **Last Run:** Feb 16, 2026 (pending first real run tomorrow)
-- **Next Run:** Feb 17, 2026 at 7:00 AM
+- **Last Run:** Feb 17, 2026 7:00 AM
+- **Next Run:** Daily at 7:00 AM
+
+### 3. LinkedIn Content Agent - Persistent
+- **Label:** LinkedIn Content Agent - Persistent
+- **Session Key:** agent:main:subagent:f1708b12-c0fd-4229-b474-c16053b0a034
+- **Role:** LinkedIn content strategy, writing, posting
+- **Expertise:** Founder voice, authentic storytelling, AI/product/startup insights, engagement strategy
+- **Last Spawned:** Feb 17, 2026 12:31 GMT+5:45
+- **Status:** Persistent (accessible for ongoing content collaboration)
+- **Current Focus:** Establishing content voice, planning first week's posts, building posting habit
+- **Context:** Dipesh's background (tech founder, Symbiosis/Sahayata), content themes (AI agents, product strategy, founder lessons, Nepal/South Asia focus)
 
 ---
 
@@ -36,6 +44,7 @@ Potential agents we may spawn as needs arise:
 - **Sales Lead:** Customer discovery synthesis, pipeline strategy
 - **Operations Lead:** Team coordination, process optimization
 - **Customer Success:** Pilot monitoring, feedback integration
+- **Twitter/X Content Agent:** Short-form content strategy (when ready)
 
 ---
 
