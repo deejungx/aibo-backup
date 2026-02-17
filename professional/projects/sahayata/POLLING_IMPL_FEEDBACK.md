@@ -1,104 +1,88 @@
-# Agent-API Polling Implementation - Feedback & Improvements
+# Agent-API Task Processing Implementation - Updated Feedback
 
 **Date:** Feb 17, 2026  
-**Context:** Feedback on implement-polling PR (Feb 12)  
-**Constraint:** Must keep 50ms polling (users need prompt replies, can't use exponential backoff)
+**Update:** Architecture changed from polling to retry-based (no more polling)  
+**Context:** Feedback on implement-polling PR (Feb 12) — now superseded
 
 ---
 
-## Current Implementation Status
+## Architecture Change
 
-The PR successfully moved from synchronous blocking to async background processing with polling. Good foundation.
+**Previous:** Async polling with 50ms intervals (blocked on quick user feedback)  
+**New:** Synchronous task execution with exponential backoff retries (better resource efficiency)
 
-**What works:**
-- Non-blocking returns (202 Accepted + task_id)
-- Fast polling (50ms) enables quick user feedback
-- Observable status via `/crew-task/{task_id}`
-- Resilient to task failures
-
-**Critical constraints:**
-- User replies must be prompt (no exponential backoff)
-- Task sends reply to user + saves to session history
-- Cannot sacrifice UX for load optimization
+This is a significant improvement — retries are cleaner than polling for this use case.
 
 ---
 
-## Recommended Improvements (Ranked by Impact)
+## Updated Recommendations
 
-### 1. **Retry Logic with Immediate Retries** (HIGH PRIORITY)
+### 1. **Exponential Backoff Retry Logic** (HIGH PRIORITY)
 - **Problem:** If `process_agent_response()` fails, response is lost silently
-- **Solution:** Retry immediately (no backoff) on failure
+- **Solution:** Retry with exponential backoff (50ms → 100ms → 200ms → 500ms)
 - **Implementation:**
   ```python
-  @retry(max_retries=3, wait_fixed=0)  # Retry IMMEDIATELY
+  @retry(max_retries=3, backoff_factor=2, wait_base=0.05)
   def process_agent_response(assistant_message, user_id, agent_id):
-      # If send fails, retry instantly without delay
+      # Retry on failure with exponential backoff
+      # 1st retry: 50ms
+      # 2nd retry: 100ms
+      # 3rd retry: 200ms
+      # If all fail, exception bubbles up
   ```
+- **Benefit:** Handles transient failures gracefully; gives services time to recover
 
-### 2. **Task Result TTL / Cleanup** (HIGH PRIORITY)
-- **Problem:** Completed tasks accumulate in Redis forever → memory bloat
-- **Solution:** Auto-expire results after 1 hour
+### 2. **Task Cleanup (TTL)** (HIGH PRIORITY)
+- **Problem:** Task results accumulate in Redis forever → memory bloat
+- **Solution:** Auto-expire results after 1-2 hours
 - **Implementation:**
   ```python
-  celery_app.conf.update(result_expires=3600)  # Auto-cleanup after 1h
+  celery_app.conf.update(result_expires=3600)  # 1 hour TTL
   ```
 
 ### 3. **Circuit Breaker for Telerivet** (MEDIUM PRIORITY)
-- **Problem:** If Telerivet API is down, keeps retrying → cascading failures
-- **Solution:** Fail fast, then back off (circuit breaker pattern)
-- **Implementation:** Use `pybreaker` library to detect API outages and fail quickly
-- **Benefit:** Prevents retry storm, allows graceful degradation
+- **Problem:** If Telerivet API is down, exponential backoff will eventually timeout
+- **Solution:** Use circuit breaker to fail fast and alert ops
+- **Implementation:** `pybreaker` library
+- **Benefit:** Prevents cascading failures; better observability
 
 ### 4. **Better Error Handling & User Feedback** (MEDIUM PRIORITY)
-- **Problem:** Silent failures or timeouts leave users hanging
-- **Solution:** Return error status + message to user
+- **Problem:** Failed requests leave users confused
+- **Solution:** Return meaningful error messages
 - **Implementation:**
   ```python
   try:
-      assistant_message = await wait_for_result(task_id, timeout=30)
+      result = await execute_agent_task(...)
   except TimeoutError:
-      send_error_to_user(user_id, "Agent took too long, please try again")
+      return {"status": "error", "message": "Agent took too long, please try again"}
   except Exception as e:
-      send_error_to_user(user_id, f"Error: {e}")
+      logger.error(f"Task failed: {e}")
+      return {"status": "error", "message": "Failed to process request"}
   ```
 
-### 5. **Max Poll Iterations Safety** (LOW PRIORITY)
-- **Problem:** Task could theoretically poll infinitely
-- **Solution:** Cap iterations (600 * 50ms = 30s max)
+### 5. **Logging & Metrics** (MEDIUM PRIORITY)
+- **Problem:** No observability into retry behavior
+- **Solution:** Track retry counts, backoff durations, failure rates
+- **Implementation:**
+  - Log: `retry_attempt=N, backoff_ms=X, task_type=Y`
+  - Metrics: `retries_per_task`, `failure_rate_by_service`, `total_backoff_time`
+
+### 6. **Max Retry Limit** (LOW PRIORITY)
+- **Problem:** Could retry infinitely in pathological cases
+- **Solution:** Cap retries at 3-5 attempts max
 - **Implementation:**
   ```python
-  max_polls = 600  # 30 seconds max
-  if polls >= max_polls:
-      raise TimeoutError("Task exceeded max polls")
+  @retry(max_retries=3, backoff_factor=2)
+  def process_agent_response(...):
+      # After 3 retries with exponential backoff (~350ms total), give up
   ```
-
-### 6. **Logging & Metrics** (LOW PRIORITY)
-- **Problem:** No observability into polling behavior
-- **Solution:** Track: avg task time, timeout rate, failure rate by agent
-- **Implementation:** Log start/end times, emit metrics to monitoring system
-
----
-
-## Long-Term Consideration
-
-**Increase timeout to 60s** (from 30s) to give agents more breathing room without hurting UX:
-- 50ms polling is fast enough for user perception
-- 60s timeout gives better reliability under load
-
----
-
-## What NOT to Do
-
-❌ Exponential backoff — Kills user-facing latency  
-❌ Longer polling intervals — Slows down user feedback  
-❌ Remove polling for webhooks only — Less reliable for MVP
 
 ---
 
 ## Implementation Priority
 
 **Phase 1 (This sprint):**
-1. Retry logic (immediate)
+1. Exponential backoff retry logic
 2. Task TTL cleanup
 3. Error handling for users
 
@@ -107,13 +91,23 @@ The PR successfully moved from synchronous blocking to async background processi
 5. Metrics/logging
 
 **Phase 3 (Later):**
-6. Max poll iterations
-7. Increase timeout to 60s after load testing
+6. Max retry limits (usually automatic with @retry decorator)
+
+---
+
+## Why This Is Better Than Polling
+
+✅ **Simpler code** — No async polling loops  
+✅ **More efficient** — No constant Redis checks  
+✅ **Natural backoff** — Exponential backoff is the right pattern for retries  
+✅ **Better observability** — Retry count is explicit in logs  
+✅ **Cleaner error flow** — Exceptions bubble up naturally  
 
 ---
 
 ## Notes
 
-- Looza (engineer) should review retry logic implementation
-- Test under load (1000+ concurrent tasks) before increasing timeout
-- Monitor Telerivet outages to justify circuit breaker
+- Use `tenacity` or `backoff` library for clean @retry decorator
+- Test backoff timing: 3 retries with 2x backoff = ~350ms total (50 + 100 + 200)
+- Monitor Telerivet response times to validate timeout settings
+- Consider jitter in backoff (+ random 0-10ms) to prevent thundering herd
