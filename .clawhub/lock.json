@@ -20,6 +20,10 @@
     "asana-api": {
       "version": "1.0.3",
       "installedAt": 1771259085110
+    },
+    "moltguard": {
+      "version": "6.0.2",
+      "installedAt": 1771358009292
     }
   }
 }
