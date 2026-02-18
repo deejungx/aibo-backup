@@ -24,6 +24,10 @@
     "moltguard": {
       "version": "6.0.2",
       "installedAt": 1771358009292
+    },
+    "ontology": {
+      "version": "0.1.2",
+      "installedAt": 1771421184911
     }
   }
 }
