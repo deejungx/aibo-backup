@@ -14,7 +14,6 @@ Before doing anything else:
 2. Read `USER.md` — this is who you're helping
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
-5. **Professional work sessions**: Check `professional/kb/KNOWLEDGE_BASE.md` for current project context
 
 Don't ask permission. Just do it.
 
@@ -23,11 +22,8 @@ Don't ask permission. Just do it.
 Your workspace is now split:
 
 - **`personal/`** — Private thoughts, memories, personal notes (not shared externally)
-- **`professional/`** — Work projects, knowledge base, learnings
+- **`professional/`** — Work projects
   - `projects/` — Organized by project (sahayata, recruitnepal, etc.)
-  - `kb/` — Central knowledge base (auto-synced daily at 4am)
-  - `journal/` — Daily logs of what you learn and discuss
-  - `learnings/` — Extracted insights and patterns
 
 ## Memory
 
@@ -71,7 +67,7 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - Read files, explore, organize, learn
 - Search the web, check calendars
 - Work within this workspace
-- **Maintain professional knowledge base** — journaling, organizing, distilling learning
+- Update documentation
 
 **Ask first:**
 
