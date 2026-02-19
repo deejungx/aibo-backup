@@ -2,20 +2,18 @@
 
 Team composition: 7 people across Symbiosis Solutions + Telerivet partnership.
 
-## Symbiosis (4)
+## Symbiosis
 
-- **Dipesh** (CEO, Strategy) — Overall vision, leadership, customer relationships
-- **Akshay** (Engineering) — Backend architecture, implementation
-- **Looza** (Ops/Design) — Operations, product design, team coordination  
-- **Arun** (Customer Discovery & Knowledge) — Customer discovery, knowledge library
+- **Dipesh** (Vision & Leadership) — Overall vision, leadership, customer relationships
+- **Looza** (Jr AI Engineer)
+- **Arun** (Customer Discovery & Knowledge)
 
-## Telerivet (3)
+## Telerivet
 
-- **Sony di** (Leadership) — Partnership management, strategic alignment
-- **Bedanga** (Product/Tech)
-- **Aaditya** (Product/Tech)
-- **Aakib** (Operations/Platform)
-- **Mabisha** (Operations/Platform)
+- **Bedanga** ()
+- **Aaditya** ()
+- **Aakib** ()
+- **Mabisha** ()
 
 ---
 
@@ -35,6 +33,7 @@ Team composition: 7 people across Symbiosis Solutions + Telerivet partnership.
 ## Workflow Context
 
 **Weekly Team Rhythm:**
+
 - **Mon 9 AM:** Sprint Planning (Arun presents signals → backlog prioritization)
 - **Daily:** Async updates (Yesterday/Blocker/Today posts)
 - **Thu 9 AM:** Huddle (demo + unblock)

@@ -3,11 +3,12 @@
 ## Symbiosis Solutions (Primary)
 
 ### Co-founders
+
 - **Dipesh Jung Pandey** (deejung) — Focus: Sahayata product, business model, global expansion
-- **Akshay Raj Manandhar** (arm) — Focus: Education AI services (not involved in Sahayata)
-- **Relationship:** School friends, equal partnership
+- **Akshay Raj Manandhar** (akshay) — Focus: Education AI services
 
 ### Team
+
 - **Looza Subedi** (looza)
   - Title: Junior AI Engineer
   - Role: Significant codebase contributions
@@ -28,6 +29,7 @@
 **Role in Sahayata:** Provides underlying omnichannel infrastructure; Sahayata AI agents run on their platform
 
 ### Team
+
 - **Sony di** (Soni di)
   - Title: Nepal team lead
   - Relationship: Father of Aaditya
@@ -58,16 +60,19 @@
 ## Sahayata Product Team (Cross-Org)
 
 **Core Builders:**
+
 - Dipesh (Symbiosis) — Product direction, business strategy
 - Looza (Symbiosis) — Engineering
 - Aakib (Telerivet) — Engineering (agent-studio)
 - Mabisha (Telerivet) — Design/frontend
 
 **Customer/Market:**
+
 - Bedanga (Telerivet) — Market insights, early customers
 - Arun (Symbiosis) — Customer discovery, partnership coordination
 
 **Business/Operations:**
+
 - Aaditya (Telerivet) — Pricing, unit economics
 
 ---
@@ -81,6 +86,7 @@
 **Market Focus:** Eyes on global, starting local (Nepal first)
 
 **Organizational Needs:**
+
 - Better governance structure around Sahayata (ownership, decision-making)
 - Clear process for customer discovery → product decisions
 - Motivation + utilization framework for cross-functional team
