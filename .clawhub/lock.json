@@ -28,6 +28,10 @@
     "ontology": {
       "version": "0.1.2",
       "installedAt": 1771421184911
+    },
+    "gog": {
+      "version": "1.0.0",
+      "installedAt": 1771606204488
     }
   }
 }
